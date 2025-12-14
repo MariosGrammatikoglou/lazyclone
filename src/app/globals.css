@@ -1,0 +1,393 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------
+   GLOBAL RESET / BASE
+--------------------------------------------------- */
+
+html,
+body {
+  @apply min-h-screen;
+}
+
+body {
+  @apply bg-slate-950 text-slate-100 antialiased;
+}
+
+/* On screens >= sm: lock scrolling (100vh feel for desktop/tablet) */
+@screen sm {
+  body {
+    @apply overflow-hidden;
+  }
+}
+
+/* Page container used in layout.tsx */
+.page-shell {
+  @apply min-h-screen flex items-center justify-center p-4 sm:p-6;
+}
+
+/* -------------------------------------------------
+   DISCORD THEME COLORS (CSS VARIABLES)
+--------------------------------------------------- */
+
+:root {
+  --bg-main: #020617;          /* slate-950-ish */
+  --bg-card: #02081a;          /* dark navy */
+  --bg-card-soft: #050816;
+  --border-subtle: #1e293b;    /* slate-800 */
+  --accent: #6366f1;           /* indigo-500 */
+  --accent-soft: #4f46e5;      /* indigo-600 */
+  --accent-muted: #818cf8;     /* indigo-400 */
+  --danger: #f97373;
+  --text-main: #e5e7eb;        /* gray-200 */
+  --text-muted: #9ca3af;       /* gray-400 */
+  --badge-bg: #111827;
+}
+
+/* -------------------------------------------------
+   GRADIENT BRAND TEXT
+--------------------------------------------------- */
+
+.text-gradient-brand {
+  @apply bg-gradient-to-r from-cyan-300 via-sky-400 to-pink-400 
+         bg-clip-text text-transparent;
+}
+
+/* -------------------------------------------------
+   CARD COMPONENT
+--------------------------------------------------- */
+
+.card {
+  @apply w-full max-w-3xl mx-auto rounded-2xl 
+         bg-slate-900/80 border border-slate-800/80 
+         shadow-2xl shadow-slate-950/70 
+         p-6 sm:p-8 md:p-9;
+}
+
+/* Titles inside card */
+.card h1 {
+  @apply text-2xl sm:text-3xl font-semibold text-slate-50 tracking-tight mb-1;
+}
+
+.card h2 {
+  @apply text-xl sm:text-2xl font-semibold text-slate-50 tracking-tight mb-1;
+}
+
+.card h3 {
+  @apply text-xs sm:text-sm font-semibold text-slate-300 tracking-wide uppercase mb-1;
+}
+
+/* -------------------------------------------------
+   BUTTONS
+--------------------------------------------------- */
+
+button {
+  @apply outline-none;
+}
+
+.button-primary {
+  @apply inline-flex items-center justify-center rounded-xl 
+         bg-gradient-to-r from-indigo-500 to-violet-500 
+         hover:from-indigo-400 hover:to-violet-400
+         text-white font-semibold px-5 py-2.5 
+         text-sm sm:text-base
+         shadow-lg shadow-indigo-900/40
+         transition-transform transition-shadow
+         hover:-translate-y-[1px]
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.button-secondary {
+  @apply inline-flex items-center justify-center rounded-xl 
+         bg-slate-800/90 hover:bg-slate-700
+         border border-slate-700/80
+         text-slate-100 font-medium px-3.5 py-2 
+         text-xs sm:text-sm
+         shadow-sm shadow-slate-950/40
+         transition
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+/* -------------------------------------------------
+   FORMS
+--------------------------------------------------- */
+
+label {
+  @apply block text-[0.7rem] sm:text-xs font-semibold tracking-wide text-slate-300 mb-1;
+}
+
+input {
+  @apply w-full rounded-lg bg-slate-900/70 border border-slate-700/70 
+         px-3 py-2.5 text-sm sm:text-base text-slate-100 
+         placeholder:text-slate-500
+         focus:outline-none focus:ring-2 focus:ring-indigo-500 
+         focus:border-indigo-500;
+}
+
+/* -------------------------------------------------
+   ERROR MESSAGE
+--------------------------------------------------- */
+
+.error {
+  @apply mt-2 mb-3 rounded-lg border border-red-500/70 
+         bg-red-950/60 text-red-100 
+         text-sm px-3 py-2;
+}
+
+/* -------------------------------------------------
+   BADGES (You / Host / Out / Order)
+--------------------------------------------------- */
+
+.badge {
+  @apply inline-flex items-center gap-1 rounded-full 
+         bg-slate-800/90 px-2.5 py-0.5 
+         text-[0.7rem] font-semibold 
+         uppercase tracking-wide text-slate-300;
+}
+
+/* -------------------------------------------------
+   LAYOUT HELPERS
+--------------------------------------------------- */
+
+.form-row {
+  @apply flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between;
+}
+
+.button-row {
+  @apply mt-4 flex flex-col gap-2 sm:flex-row sm:items-center;
+}
+
+/* -------------------------------------------------
+   SCROLLBARS
+--------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-950;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-700 rounded-full;
+}
+
+/* -------------------------------------------------
+   DOUBLE BUTTON WITH EYES (NO DIMMING, CURSOR FOLLOW)
+--------------------------------------------------- */
+
+.fun-button-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+/* top gradient button (real clickable one) */
+.fun-button-top {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  border-radius: 999px;
+  transform-origin: left center; /* Keep the left side fixed as the pivot */
+  box-shadow: none !important;
+  transition: transform 220ms cubic-bezier(0.32, 0.07, 0.12, 0.99);
+}
+
+/* hover: only the RIGHT side rotates; left side stays fixed */
+.fun-button-wrapper:hover .fun-button-top {
+  transform: rotate(-7deg); /* Apply rotation only to the right side */
+  box-shadow: none !important;
+}
+
+
+/* bottom black button – solid */
+.fun-button-under {
+  position: absolute;
+  inset: 0;                /* EXACT same size as top button */
+  border-radius: 999px;
+  background: #000000;     /* pure black */
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.85);
+  pointer-events: none;    /* clicks go to the real button */
+  z-index: 1;
+}
+
+/* eyes: placed above black pill, below top button */
+.fun-button-eyes {
+  position: absolute;
+  right: 1.3rem;
+  bottom: 0.45rem;
+  display: flex;
+  gap: 0.35rem;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* eye shells */
+.fun-eye {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  background: #ffffff;   /* pure white */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.fun-eye-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  animation: fun-eye-blink 3s infinite;
+}
+
+/* pupil – transform is controlled via inline style from React */
+.fun-eye-pupil {
+  width: 0.34rem;
+  height: 0.34rem;
+  border-radius: 999px;
+  background: #000000;   /* pure black */
+  /* IMPORTANT: no transform here, it's set from React inline style */
+  transition: transform 260ms cubic-bezier(0.33, 1, 0.68, 1);
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+
+
+
+/* blink every ~3s */
+@keyframes fun-eye-blink {
+  0%,
+  90%,
+  100% {
+    transform: scaleY(1);
+  }
+  93% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* Fun button eyes - Jump Scare */
+.fun-button-eyes.jumpscare {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Darker background for a more intense jumpscare */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: eye-jumpscare 1s ease-in-out;
+}
+
+/* Increase size of eyes a bit more */
+.fun-eye.jumpscare-eye {
+  width: 9rem;  /* Larger eye size */
+  height: 9rem;
+  margin-right: 2.5rem; /* Reduce gap between eyes */
+}
+
+/* Larger pupils in jumpscare */
+.fun-eye-pupil.jumpscare-pupil {
+  width: 3.5rem;  /* Larger pupil size */
+  height: 3.5rem;
+}
+
+/* Animation for jumpscare */
+@keyframes eye-jumpscare {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* -------------------------------------------------
+   DANGER BUTTONS - LAVA TO ORANGE FLAME
+   (Vote / Execute / Kick)
+--------------------------------------------------- */
+
+.vote-button,
+.execute-button,
+.kick-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate; /* keep lava inside the pill */
+}
+
+/* Lava / flame layer inside the button */
+.vote-button::before,
+.execute-button::before,
+.kick-button::before {
+  content: '';
+  position: absolute;
+  inset: -20%; /* bleed a bit outside to avoid hard edges */
+  background: radial-gradient(circle at 0% 50%, #7f1d1d 0%, transparent 55%),
+    radial-gradient(circle at 30% 10%, #b91c1c 0%, transparent 60%),
+    radial-gradient(circle at 60% 90%, #f97316 0%, transparent 55%),
+    radial-gradient(circle at 100% 40%, #facc15 0%, transparent 60%);
+  background-size: 220% 220%;
+  background-position: 0% 50%;
+  opacity: 0; /* hidden until hover */
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 220ms ease-out;
+  z-index: -1;
+}
+
+/* Hover: wake up the lava, but keep button still */
+.vote-button:hover:not(:disabled),
+.execute-button:hover:not(:disabled),
+.kick-button:hover:not(:disabled) {
+  border-color: #f97316;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.9),
+    0 0 24px rgba(248, 113, 113, 0.45);
+  color: #fee2e2;
+}
+
+.vote-button:hover:not(:disabled)::before,
+.execute-button:hover:not(:disabled)::before,
+.kick-button:hover:not(:disabled)::before {
+  opacity: 1;
+  animation: vote-lava-loop 6s linear infinite alternate;
+}
+
+/* Click: slight darken, still no movement */
+.vote-button:active:not(:disabled),
+.execute-button:active:not(:disabled),
+.kick-button:active:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+/* Disabled: no lava, no glow */
+.vote-button:disabled::before,
+.execute-button:disabled::before,
+.kick-button:disabled::before {
+  opacity: 0;
+  animation: none;
+}
+
+/* Smooth red -> orange -> red loop */
+@keyframes vote-lava-loop {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 60%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
