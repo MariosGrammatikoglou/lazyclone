@@ -552,7 +552,7 @@ export default function LobbyClient({
                     </div>
 
                     <div className="flex items-center gap-3">
-                      {/* Vote button is ALWAYS visible, but only clickable when allowed */}
+                      {/* Vote button is ALWAYS visible, but only clickable when allowed .*/}
                  <button
   onClick={() => canVoteThisPlayer && handleVote(p.id)}
   disabled={!canVoteThisPlayer}
